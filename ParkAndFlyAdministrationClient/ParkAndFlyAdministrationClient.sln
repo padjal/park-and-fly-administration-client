@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkAndFlyAdministrationCli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkAndFlyAdministrationClient.Client", "ParkAndFlyAdministrationClient.Client\ParkAndFlyAdministrationClient.Client.csproj", "{A8A37B19-4CD3-4518-84E1-86F026F19240}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkAndFlyAdministrationClient.Data", "..\ParkAndFlyAdministrationClient.Data\ParkAndFlyAdministrationClient.Data.csproj", "{0F9AB78E-FD8D-4797-A767-92962F18EBFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A8A37B19-4CD3-4518-84E1-86F026F19240}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8A37B19-4CD3-4518-84E1-86F026F19240}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8A37B19-4CD3-4518-84E1-86F026F19240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F9AB78E-FD8D-4797-A767-92962F18EBFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F9AB78E-FD8D-4797-A767-92962F18EBFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F9AB78E-FD8D-4797-A767-92962F18EBFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F9AB78E-FD8D-4797-A767-92962F18EBFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
