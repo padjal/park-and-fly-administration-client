@@ -1,3 +1,4 @@
+using dymaptic.GeoBlazor.Core;
 using ParkAndFlyAdministrationClient.Client.Pages;
 using ParkAndFlyAdministrationClient.Components;
 
@@ -13,6 +14,8 @@ namespace ParkAndFlyAdministrationClient
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents();
+
+            builder.Services.AddGeoBlazor(builder.Configuration);
 
             var app = builder.Build();
 

@@ -1,0 +1,16 @@
+﻿@page "/parkings"
+@rendermode InteractiveAuto
+
+<h3>Parkings</h3>
+
+<MapView Longitude="_longitude" Latitude="_latitude" Zoom="12" Style="height: 400px; width: 100%;">
+    <Map ArcGisDefaultBasemap="arcgis-topographic">
+        @* <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" /> *@
+        
+    </Map>
+</MapView>
+
+@code {
+    private readonly double _latitude = 42.6894326;
+    private readonly double _longitude = 23.4058244;
+}
