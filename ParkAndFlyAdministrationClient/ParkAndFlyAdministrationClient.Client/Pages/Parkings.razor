@@ -1,16 +1,52 @@
 ﻿@page "/parkings"
-@rendermode InteractiveAuto
+@using ParkAndFlyAdministrationClient.Data.Models
+@using ParkAndFlyAdministrationClient.Data.Services
+@inject IParkingService ParkingService
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <h3>Parkings</h3>
 
 <MapView Longitude="_longitude" Latitude="_latitude" Zoom="12" Style="height: 400px; width: 100%;">
     <Map ArcGisDefaultBasemap="arcgis-topographic">
-        @* <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" /> *@
-        
     </Map>
 </MapView>
+
+<div class="mt-1">
+    @if (_isParkingDataLoading)
+    {
+        <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    }
+    else
+    {
+        <RadzenDataGrid Data="@_parkings" TItem="Parking" AllowFiltering="true" AllowPaging="true">
+            <Columns>
+                <RadzenDataGridColumn TItem="Parking" Property="Name" Title="Name" />
+                <RadzenDataGridColumn TItem="Parking" Property="Address" Title="Address" />
+                <RadzenDataGridColumn TItem="Parking" Property="MaxCars" Title="MaxCars" />
+            </Columns>
+        </RadzenDataGrid>
+    }
+</div>
+
 
 @code {
     private readonly double _latitude = 42.6894326;
     private readonly double _longitude = 23.4058244;
+    private bool _isParkingDataLoading;
+    private List<Parking>? _parkings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetParkings();
+    }
+
+    private async Task GetParkings()
+    {
+        _isParkingDataLoading = true;
+
+        _parkings = await ParkingService.GetParkingsAsync();
+
+        _isParkingDataLoading = false;
+    }
 }
+ 

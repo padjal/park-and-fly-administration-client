@@ -1,6 +1,6 @@
 ﻿namespace ParkAndFlyAdministrationClient.Data.Models
 {
-    internal class Parking
+    public class Parking
     {
         public int Id { get; set; }
         public double Latitude { get; set; }

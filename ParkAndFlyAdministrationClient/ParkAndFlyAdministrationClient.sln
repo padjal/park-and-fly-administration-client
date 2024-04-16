@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkAndFlyAdministrationClient", "ParkAndFlyAdministrationClient\ParkAndFlyAdministrationClient.csproj", "{97F47597-C843-4153-9688-042641B31588}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkAndFlyAdministrationClient", "ParkAndFlyAdministrationClient\ParkAndFlyAdministrationClient.csproj", "{97F47597-C843-4153-9688-042641B31588}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkAndFlyAdministrationClient.Client", "ParkAndFlyAdministrationClient.Client\ParkAndFlyAdministrationClient.Client.csproj", "{A8A37B19-4CD3-4518-84E1-86F026F19240}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkAndFlyAdministrationClient.Client", "ParkAndFlyAdministrationClient.Client\ParkAndFlyAdministrationClient.Client.csproj", "{A8A37B19-4CD3-4518-84E1-86F026F19240}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkAndFlyAdministrationClient.Data", "..\ParkAndFlyAdministrationClient.Data\ParkAndFlyAdministrationClient.Data.csproj", "{0F9AB78E-FD8D-4797-A767-92962F18EBFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkAndFlyAdministrationClient.Data", "..\ParkAndFlyAdministrationClient.Data\ParkAndFlyAdministrationClient.Data.csproj", "{0F9AB78E-FD8D-4797-A767-92962F18EBFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
