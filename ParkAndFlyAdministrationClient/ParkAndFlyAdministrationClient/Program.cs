@@ -1,5 +1,8 @@
+using dymaptic.GeoBlazor.Core;
 using ParkAndFlyAdministrationClient.Client.Pages;
 using ParkAndFlyAdministrationClient.Components;
+using ParkAndFlyAdministrationClient.Data.Services;
+using Radzen;
 
 namespace ParkAndFlyAdministrationClient
 {
@@ -13,6 +16,13 @@ namespace ParkAndFlyAdministrationClient
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents();
+
+            builder.Services.AddGeoBlazor(builder.Configuration);
+
+            builder.Services.AddRadzenComponents();
+
+            builder.Services.AddSingleton<IParkingService, ParkingService>();
+            builder.Services.AddSingleton<IReservationService, ReservationService>();
 
             var app = builder.Build();
 
