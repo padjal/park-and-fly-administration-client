@@ -22,6 +22,7 @@ namespace ParkAndFlyAdministrationClient
             builder.Services.AddRadzenComponents();
 
             builder.Services.AddSingleton<IParkingService, ParkingService>();
+            builder.Services.AddSingleton<IReservationService, ReservationService>();
 
             var app = builder.Build();
 

@@ -1,0 +1,178 @@
+﻿@page "/parking-dashboard/{parkingId}"
+@using ParkAndFlyAdministrationClient.Data.Models
+@using ParkAndFlyAdministrationClient.Data.Services
+@using System.Diagnostics
+@inject IReservationService ReservationService
+
+<RadzenRow Gap="5px">
+    <h3>ParkingDashboard</h3>
+
+    <RadzenButton Click=@(args => Refresh()) Icon="refresh" ButtonStyle="ButtonStyle.Light" />
+</RadzenRow>
+
+<RadzenRow>
+    @* <div class="container">
+            <div class="col-sm-12 col-lg-8 my-3 my-lg-5">
+                <RadzenArcGauge Style="width: 100%; height: 250px;">
+                    <RadzenArcGaugeScale Step="20" Min="0" Max="260" MinorStep="2" Radius="1.5" TickPosition=@tickPosition Y="0.9" Margin="0">
+                        <RadzenArcGaugeScaleValue Value=@value ShowValue=@showValue>
+                            <Template Context="pointer">
+                                <h4>
+                                    @pointer.Value
+                                </h4>
+                                <p>Current reservations</p>
+                            </Template>
+                        </RadzenArcGaugeScaleValue>
+                    </RadzenArcGaugeScale>
+                </RadzenArcGauge>
+            </div>
+   
+    </div> *@
+    <RadzenColumn>
+        <RadzenCard>
+            <RadzenArcGauge Style="width: 100%; height: 250px;">
+                <RadzenArcGaugeScale Step="20" Min="0" Max="260" MinorStep="2" Radius="1.5" TickPosition=@tickPosition Y="0.9" Margin="0">
+                    <RadzenArcGaugeScaleValue Value=@value ShowValue=@showValue>
+                        <Template Context="pointer">
+                            <h4>
+                                @pointer.Value
+                            </h4>
+                            <p>Current reservations</p>
+                        </Template>
+                    </RadzenArcGaugeScaleValue>
+                </RadzenArcGaugeScale>
+            </RadzenArcGauge>
+        </RadzenCard>
+    </RadzenColumn>
+    
+    <RadzenColumn>
+        <RadzenCard>
+            <RadzenChart>
+                <RadzenLineSeries Smooth=true Data=@currentYearReservations CategoryProperty="Date" Title="2023" LineType="LineType.Dashed" ValueProperty="Reservations">
+                    <RadzenMarkers Visible=true MarkerType="MarkerType.Square" />
+                    <RadzenSeriesDataLabels Visible=false />
+                </RadzenLineSeries>
+                @* <RadzenLineSeries Smooth=true Data="@revenue2024" CategoryProperty="Date" Title="2024" ValueProperty="Revenue">
+                <RadzenMarkers Visible="@showMarkers" MarkerType="MarkerType.Circle" />
+                <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                </RadzenLineSeries> *@
+                <RadzenCategoryAxis Padding="20" />
+                <RadzenValueAxis>
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Reservations" />
+                </RadzenValueAxis>
+            </RadzenChart>
+        </RadzenCard>
+    </RadzenColumn>
+
+    
+
+    @* <div class="container">
+            <div class="col-sm-12 my-5">
+                <RadzenChart>
+                    <RadzenLineSeries Smooth=true Data=@currentYearReservations CategoryProperty="Date" Title="2023" LineType="LineType.Dashed" ValueProperty="Reservations">
+                        <RadzenMarkers Visible=true MarkerType="MarkerType.Square" />
+                        <RadzenSeriesDataLabels Visible=false />
+                    </RadzenLineSeries>
+                    <RadzenLineSeries Smooth=true Data="@revenue2024" CategoryProperty="Date" Title="2024" ValueProperty="Revenue">
+                        <RadzenMarkers Visible="@showMarkers" MarkerType="MarkerType.Circle" />
+                        <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                    </RadzenLineSeries>
+                    <RadzenCategoryAxis Padding="20" />
+                    <RadzenValueAxis>
+                        <RadzenGridLines Visible="true" />
+                        <RadzenAxisTitle Text="Reservations" />
+                    </RadzenValueAxis>
+                </RadzenChart>
+            </div>
+       
+    </div> *@
+</RadzenRow>
+
+
+<RadzenDataGrid style="height: 335px" @ref="grid" IsLoading=@isLoading Data="@Reservations" LoadData="@LoadData" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="4" PagerHorizontalAlign="HorizontalAlign.Center" TItem="Reservation" ColumnWidth="200px">
+    <Columns>
+        <RadzenDataGridColumn TItem="Reservation" Property="Id" Title="Id" Width="120px" />
+        <RadzenDataGridColumn TItem="Reservation" Property="CarNumber" Title="Car Number" Width="160px" />
+        <RadzenDataGridColumn TItem="Reservation" Property="From" Title="From" Width="160px" />
+        <RadzenDataGridColumn TItem="Reservation" Property="To" Title="To" Width="160px" />
+    </Columns>
+</RadzenDataGrid>
+<p>@log</p>
+
+@code {
+    [Parameter]
+    public string? ParkingId { get; set; }
+
+    private bool isLoading;
+
+    public List<Reservation> Reservations { get; set; }
+    RadzenDataGrid<Reservation> grid;
+    private string log;
+
+    bool showValue = true;
+    double value = 100;
+    IEnumerable<GaugeTickPosition> tickPositions = Enum.GetValues(typeof(GaugeTickPosition)).Cast<GaugeTickPosition>();
+    GaugeTickPosition tickPosition = GaugeTickPosition.Outside;
+
+    class DataItem
+    {
+        public string Date { get; set; }
+        public double Reservations { get; set; }
+    }
+
+    DataItem[] currentYearReservations = new DataItem[]
+    {
+        new DataItem
+        {
+            Date = "January",
+            Reservations = 10
+        },
+        new DataItem
+        {
+            Date = "February",
+            Reservations = 15
+        },
+        new DataItem
+        {
+            Date = "March",
+            Reservations = 25
+        },
+        new DataItem
+        {
+            Date = "April",
+            Reservations = 8
+        },
+    };
+
+    async Task LoadData(LoadDataArgs args)
+    {
+        var timer = new Stopwatch();
+        timer.Start();
+
+        isLoading = true;
+
+        Reservations = await ReservationService.GetAllReservationsAsync();
+
+        //await grid.Reload();
+
+        timer.Stop();
+
+        log = $"Data loaded in {timer.Elapsed.TotalMilliseconds}ms";
+
+        isLoading = false;
+    }
+
+    async Task Refresh()
+    {
+        isLoading = true;
+
+        //await Task.Yield();
+
+        Reservations = await ReservationService.GetAllReservationsAsync();
+
+        //await grid.Reload();
+
+        isLoading = false;      
+    }
+}

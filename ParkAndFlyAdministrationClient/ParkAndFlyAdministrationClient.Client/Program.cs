@@ -13,6 +13,7 @@ namespace ParkAndFlyAdministrationClient.Client
             builder.Services.AddGeoBlazor(builder.Configuration);
             builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["FrontendUrl"] ?? "https://localhost:5002") });
             builder.Services.AddSingleton<IParkingService, ParkingService>();
+            builder.Services.AddSingleton<IReservationService, ReservationService>();
 
             await builder.Build().RunAsync();
         }
