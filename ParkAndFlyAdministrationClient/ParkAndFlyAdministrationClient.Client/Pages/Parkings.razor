@@ -1,10 +1,23 @@
 ﻿@page "/parkings"
+@using ParkAndFlyAdministrationClient.Client.Components
 @using ParkAndFlyAdministrationClient.Data.Models
 @using ParkAndFlyAdministrationClient.Data.Services
 @inject IParkingService ParkingService
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
+@inject DialogService DialogService
 
-<h3>Parkings</h3>
+<RadzenRow>
+    <RadzenColumn Size="6">
+        <h3>Parkings</h3>
+    </RadzenColumn>
+
+    <RadzenColumn Size="6">
+        <RadzenRow JustifyContent="JustifyContent.End">
+            <RadzenButton Text="Add Parking" Icon="add" ButtonStyle="ButtonStyle.Primary" Click=@OnAddParking />
+
+        </RadzenRow>
+    </RadzenColumn>
+</RadzenRow>
 
 <MapView Longitude="_longitude" Latitude="_latitude" Zoom="12" Style="height: 400px; width: 100%;">
     <Map ArcGisDefaultBasemap="arcgis-topographic">
@@ -47,6 +60,11 @@
         _parkings = await ParkingService.GetParkingsAsync();
 
         _isParkingDataLoading = false;
+    }
+
+    private async Task OnAddParking()
+    {
+        await DialogService.OpenAsync<ParkingDialog>("");
     }
 }
  
