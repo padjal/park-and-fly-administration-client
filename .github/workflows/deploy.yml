@@ -43,7 +43,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}park-and-fly-administration-client:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/park-and-fly-administration-client:latest
             sudo docker stop park-and-fly-administration-client || true
             sudo docker rm park-and-fly-administration-client || true
             sudo docker run -d -p 8080:8080 --name park-and-fly-administration-client ${{ secrets.DOCKERHUB_USERNAME }}/park-and-fly-administration-client:latest
