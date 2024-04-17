@@ -16,11 +16,11 @@ namespace ParkAndFlyAdministrationClient.Data.Services
             return new List<Customer>()
             {
                 new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Johny", Surname="Depp", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="James", Surname="Hype", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="George", Surname="Doyd", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Valentin", Surname="Kiprov", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Mario", Surname="Bush", PhoneNumber="0892342345"},
             };
         }
 

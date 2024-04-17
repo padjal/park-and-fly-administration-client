@@ -1,21 +1,31 @@
 ﻿@page "/customers"
+@using ParkAndFlyAdministrationClient.Client.Components
 @using ParkAndFlyAdministrationClient.Data.Models
 @using ParkAndFlyAdministrationClient.Data.Services
 @inject ICustomerService CustomerService
+@inject NotificationService NotificationService
+@inject DialogService DialogService
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 <h3>Customers</h3>
 
-<RadzenDataGrid style="height: 335px" Data="@_customers" TItem="Customer" IsLoading=@_isLoading AllowFiltering="true" AllowPaging="true">
+<RadzenDataGrid @ref="customersGrid" style="height: 335px" Data="@_customers" TItem="Customer" IsLoading=@_isLoading AllowFiltering="true" AllowPaging="true">
     <Columns>
+        <RadzenDataGridColumn TItem="Customer" Property="Id" Title="Id" />
         <RadzenDataGridColumn TItem="Customer" Property="Email" Title="Email" />
         <RadzenDataGridColumn TItem="Customer" Property="Name" Title="Name" />
         <RadzenDataGridColumn TItem="Customer" Property="Surname" Title="Surname" />
         <RadzenDataGridColumn TItem="Customer" Property="Birthday" Title="Birthday" />        
         <RadzenDataGridColumn TItem="Customer" Property="PhoneNumber" Title="Phone Numnber" />
+        <RadzenDataGridColumn TItem="Customer" Context="customer">
+            <Template Context="customer">
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(customer))" />
+            </Template>
+        </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
 
 @code {
+    RadzenDataGrid<Customer> customersGrid;
     List<Customer> _customers;
     bool _isLoading;
 
@@ -28,5 +38,20 @@
         _customers = await CustomerService.GetAllAsync();
 
         _isLoading = false;
+    }
+
+    async Task EditRow(Customer customer)
+    {
+        NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Warning,
+                Duration = 40000,
+                SummaryContent = ns =>@<RadzenText TextStyle="TextStyle.H6">Custom summary: <br /> @DateTime.Now</RadzenText>,
+        DetailContent = ns => @<RadzenButton Text="Clear" Click="@(args => ns.Messages.Clear())" />
+        });
+
+        await DialogService.OpenAsync<CustomerDialog>("Edit customer",
+               new Dictionary<string, object>() { { "Customer", customer } });
+        await customersGrid.EditRow(customer);
     }
 }
