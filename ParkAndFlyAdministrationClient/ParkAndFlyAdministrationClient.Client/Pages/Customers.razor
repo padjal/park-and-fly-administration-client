@@ -1,5 +1,27 @@
-﻿<h3>Customers</h3>
+﻿@page "/customers"
+@using ParkAndFlyAdministrationClient.Data.Models
+@using ParkAndFlyAdministrationClient.Data.Services
+@inject ICustomerService CustomerService
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+<h3>Customers</h3>
+
+<RadzenDataGrid Data=@_customers TItem="Customer">
+    <Columns>
+        <RadzenDataGridColumn TItem="Parking" Property="Email" Title="Email" />
+        <RadzenDataGridColumn TItem="Parking" Property="Name" Title="Name" />
+        <RadzenDataGridColumn TItem="Parking" Property="Surname" Title="Surname" />
+        
+        <RadzenDataGridColumn TItem="Parking" Property="PhoneNumber" Title="Phone Numnber" />
+    </Columns>
+</RadzenDataGrid>
 
 @code {
+    List<Customer> _customers;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _customers = await CustomerService.GetAllAsync();
+    }
 }

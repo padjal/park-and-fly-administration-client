@@ -28,7 +28,7 @@ namespace ParkAndFlyAdministrationClient.Data.Services
         {
             await Task.Delay(1000);
 
-            return new Customer() { Id = "2342342", Birthday = DateTime.Now, Email = "padjal@example.com", Name = "Pavel", Surname = "Dzhalev", PhoneNumber = "0892342345" }
+            return new Customer() { Id = "2342342", Birthday = DateTime.Now, Email = "padjal@example.com", Name = "Pavel", Surname = "Dzhalev", PhoneNumber = "0892342345" };
         }
 
         public async Task<List<Customer>> GetCustomersFromParkingAsync(string parkingId)
