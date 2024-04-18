@@ -1,0 +1,103 @@
+﻿@page "/add-parking"
+@using ParkAndFlyAdministrationClient.Data.Models
+@inject Radzen.DialogService dialogService
+@inject ILoggerFactory LoggerFactory
+
+<RadzenStack Gap="1rem">
+    <h3>Add Parking</h3>
+
+    <RadzenTemplateForm TItem="Parking" Data=@parking Submit=@OnSubmit >
+        <RadzenFieldset Text="Parking details">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <RadzenLabel Text="Name" Component="Name" />
+                </div>
+                <div class="col">
+                    <RadzenTextBox style="display: block" Name="Name" @bind-Value=@parking.Name class="w-100" />
+                    <RadzenRequiredValidator Component="Name" Text="Parking name is required" Popup=@popup Style="position: absolute" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <RadzenLabel Text="Address" Component="Address" />
+                </div>
+                <div class="col">
+                    <RadzenTextBox style="display: block" Name="Address" @bind-Value=@parking.Address class="w-100" />
+                    <RadzenRequiredValidator Component="Address" Text="Parking address is required" Popup=@popup Style="position: absolute" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <RadzenLabel Text="Latitude" Component="Latitude" />
+                </div>
+                <div class="col">
+                    <RadzenNumeric TValue="double" style="display: block" Name="Latitude" @bind-Value=@parking.Latitude class="w-100" />
+                    <RadzenRequiredValidator Component="Latitude" Text="Parking latitude is required" Popup=@popup Style="position: absolute" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <RadzenLabel Text="Longitude" Component="Longitude" />
+                </div>
+                <div class="col">
+                    <RadzenNumeric TValue="double" style="display: block" Name="Longitude" @bind-Value=@parking.Longitude class="w-100" />
+                    <RadzenRequiredValidator Component="Longitude" Text="Parking longitude is required" Popup=@popup Style="position: absolute" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <RadzenLabel Text="City" Component="City" />
+                </div>
+                <div class="col">
+                    <RadzenTextBox style="display: block" Name="City" @bind-Value=@parking.City class="w-100" />
+                    <RadzenRequiredValidator Component="City" Text="Parking city is required" Popup=@popup Style="position: absolute" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <RadzenLabel Text="Country" Component="Country" />
+                </div>
+                <div class="col">
+                    <RadzenTextBox style="display: block" Name="Country" @bind-Value=@parking.Country class="w-100" />
+                    <RadzenRequiredValidator Component="Country" Text="Parking country is required" Popup=@popup Style="position: absolute" />
+                </div>
+            </div
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <RadzenLabel Text="Phone" Component="Phone" />
+                </div>
+                <div class="col">
+                    <RadzenTextBox style="display: block" Name="Country" @bind-Value=@parking.Phone class="w-100" />
+                    <RadzenRequiredValidator Component="Phone" Text="Parking phone is required" Popup=@popup Style="position: absolute" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <RadzenLabel Text="Max cars" Component="MaxCars" />
+                </div>
+                <div class="col">
+                    <RadzenNumeric TValue="int" style="display: block" Name="MaxCars" @bind-Value=@parking.MaxCars class="w-100" />
+                    <RadzenRequiredValidator Component="MaxCars" Text="Parking max cars is required" Popup=@popup Style="position: absolute" />
+                </div>
+            </div>
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Submit"></RadzenButton>
+        </RadzenFieldset>
+    </RadzenTemplateForm>
+</RadzenStack>
+
+@code {
+    bool popup;
+    Parking parking = new Parking();
+
+    private void OnSubmit(Parking parking)
+    {
+        throw new NotImplementedException();
+    }
+}

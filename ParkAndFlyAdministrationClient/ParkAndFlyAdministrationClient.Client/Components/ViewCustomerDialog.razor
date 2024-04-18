@@ -1,0 +1,59 @@
+﻿@using ParkAndFlyAdministrationClient.Data.Models
+@using ParkAndFlyAdministrationClient.Data.Services
+@inject ICarServcie CarService
+
+<RadzenRow>
+    <RadzenColumn>
+        <RadzenStack>
+            <RadzenFormField AllowFloatingLabel="false" Text="Name" Style="width: 100%;">
+                <RadzenTextBox @bind-Value="@Customer.Name" Style="width: 100%;" ReadOnly=true/>
+            </RadzenFormField>
+            <RadzenFormField AllowFloatingLabel="false" Text="Surname" Style="width: 100%;">
+                <RadzenTextBox @bind-Value="@Customer.Surname" Style="width: 100%;" ReadOnly=true />
+            </RadzenFormField>
+            <RadzenFormField AllowFloatingLabel="false" Text="Email" Style="width: 100%;">
+                <RadzenTextBox @bind-Value="@Customer.Email" Style="width: 100%;" ReadOnly=true />
+            </RadzenFormField>
+        </RadzenStack>
+    </RadzenColumn>
+
+    <RadzenColumn>
+        <RadzenStack>
+            <RadzenFormField AllowFloatingLabel="false" Text="Birthday" Style="width: 100%;">
+                <RadzenDatePicker DateFormat="MM/dd/yyyy" @bind-Value=@Customer.Birthday Name="RadzenDatePickerBindValue" ShowCalendarWeek ReadOnly=true />
+             </RadzenFormField>
+             <RadzenFormField AllowFloatingLabel="false" Text="Phone Number" Style="width: 100%;">
+                 <RadzenTextBox @bind-Value="@Customer.PhoneNumber" Style="width: 100%;" ReadOnly=true />
+             </RadzenFormField>
+         </RadzenStack>
+     </RadzenColumn>
+ </RadzenRow>
+
+ <RadzenDataGrid class="mt-3" style="height: 335px" Data="@_cars" IsLoading=@_isCarsGridLoading>
+     <Columns>
+         <RadzenDataGridColumn TItem="Car" Property="Number" Title="Number" />
+         <RadzenDataGridColumn TItem="Car" Property="Brand" Title="Brand" />
+         <RadzenDataGridColumn TItem="Car" Property="Model" Title="Number" />
+         <RadzenDataGridColumn TItem="Car" Property="Color" Title="Color" />
+     </Columns>
+ </RadzenDataGrid>
+
+ @code {
+    [Parameter]
+    public Customer Customer { get; set; }
+
+    private List<Car> _cars;
+
+    private bool _isCarsGridLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _isCarsGridLoading = true;
+
+        _cars = await CarService.GetCarsByUserAsync(Customer.Id);
+
+        _isCarsGridLoading = false;
+    }
+}

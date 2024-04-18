@@ -23,6 +23,8 @@ namespace ParkAndFlyAdministrationClient
 
             builder.Services.AddSingleton<IParkingService, ParkingService>();
             builder.Services.AddSingleton<IReservationService, ReservationService>();
+            builder.Services.AddSingleton<ICustomerService, CustomerService>();
+            builder.Services.AddSingleton<ICarServcie, CarService>();
 
             var app = builder.Build();
 
