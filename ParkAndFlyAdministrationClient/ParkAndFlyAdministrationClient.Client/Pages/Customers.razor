@@ -1,0 +1,56 @@
+﻿@page "/customers"
+@using ParkAndFlyAdministrationClient.Client.Components
+@using ParkAndFlyAdministrationClient.Data.Models
+@using ParkAndFlyAdministrationClient.Data.Services
+@inject ICustomerService CustomerService
+@inject DialogService DialogService
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+<h3>Customers</h3>
+
+<RadzenDataGrid @ref="customersGrid" style="height: 100&" Data="@_customers" TItem="Customer" IsLoading=@_isLoading AllowFiltering="true" AllowPaging="true" CellClick=@SelectRow>
+    <Columns>
+        <RadzenDataGridColumn TItem="Customer" Property="Id" Title="Id" />
+        <RadzenDataGridColumn TItem="Customer" Property="Email" Title="Email" />
+        <RadzenDataGridColumn TItem="Customer" Property="Name" Title="Name" />
+        <RadzenDataGridColumn TItem="Customer" Property="Surname" Title="Surname" />
+        <RadzenDataGridColumn TItem="Customer" Property="Birthday" Title="Birthday" />        
+        <RadzenDataGridColumn TItem="Customer" Property="PhoneNumber" Title="Phone Numnber" />
+        <RadzenDataGridColumn TItem="Customer" Title="Edit" Context="customer">
+            <Template Context="customer">
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(customer))" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    RadzenDataGrid<Customer> customersGrid;
+    List<Customer> _customers;
+    bool _isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _isLoading = true;
+
+        _customers = await CustomerService.GetAllAsync();
+
+        _isLoading = false;
+    }
+
+    async Task EditRow(Customer customer)
+    {
+        await DialogService.OpenAsync<EditCustomerDialog>("Edit customer",
+               new Dictionary<string, object>() { { "Customer", customer } });
+        await customersGrid.EditRow(customer);
+    }
+
+    async Task SelectRow(DataGridCellMouseEventArgs<Customer> args)
+    {
+        if (args.Column.Title == "Edit") return;
+
+        await DialogService.OpenAsync<ViewCustomerDialog>("View customer",
+               new Dictionary<string, object>() { { "Customer", args.Data } });
+    }
+}
