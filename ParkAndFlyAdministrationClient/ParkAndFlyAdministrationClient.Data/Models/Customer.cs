@@ -1,6 +1,6 @@
 ﻿namespace ParkAndFlyAdministrationClient.Data.Models
 {
-    public record Customer
+    public class Customer
     {
         public String Id { get; set; }
         public String Name { get; set; }
