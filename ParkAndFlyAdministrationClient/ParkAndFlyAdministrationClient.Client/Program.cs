@@ -11,6 +11,8 @@ namespace ParkAndFlyAdministrationClient.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+            
+
             builder.Services.AddGeoBlazor(builder.Configuration);
             builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["FrontendUrl"] ?? "https://localhost:5002") });
             builder.Services.AddSingleton<IParkingService, ParkingService>();

@@ -21,6 +21,12 @@ namespace ParkAndFlyAdministrationClient
 
             builder.Services.AddRadzenComponents();
 
+            builder.Services.AddSingleton(sp =>
+                new HttpClient
+                {
+                    BaseAddress = new Uri("http://18.130.140.171:8080")
+                });
+
             builder.Services.AddSingleton<IParkingService, ParkingService>();
             builder.Services.AddSingleton<IReservationService, ReservationService>();
             builder.Services.AddSingleton<ICustomerService, CustomerService>();
