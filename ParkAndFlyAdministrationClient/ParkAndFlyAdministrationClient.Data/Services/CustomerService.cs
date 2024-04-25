@@ -12,7 +12,7 @@ namespace ParkAndFlyAdministrationClient.Data.Services
     {
         public async Task<List<Customer>> GetAllAsync()
         {
-            return await httpClient.GetFromJsonAsync<List<Customer>>("customers") ?? new List<Customer>();
+            //return await httpClient.GetFromJsonAsync<List<Customer>>("customers") ?? new List<Customer>();
 
             await Task.Delay(1000);
 

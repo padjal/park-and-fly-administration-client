@@ -1,9 +1,10 @@
 ﻿@page "/"
 @using ParkAndFlyAdministrationClient.Client.Data.Requests
+@using ParkAndFlyAdministrationClient.Client.Data.Response
 @layout EmptyLayout
-@rendermode InteractiveServer
 @inject NavigationManager navigation
 @inject HttpClient httpClient
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
 <RadzenRow Gap="0" Class="rz-my-12 rz-mx-auto rz-border-radius-6 rz-shadow-10" Style="width: 100%; max-width: 800px; overflow: hidden;">
     <RadzenColumn Size="12" SizeMD="6">
@@ -49,13 +50,17 @@
     {
         isBusy = true;
 
-        var result = await httpClient.PostAsJsonAsync<LoginDTO>("login", new LoginDTO() { Email = args.Username, Password = args.Password });
+        var result = await httpClient.PostAsJsonAsync<LoginRequest>("login", new LoginRequest() { Email = args.Username, Password = args.Password });
 
         isBusy = false;
 
         if(result.StatusCode == System.Net.HttpStatusCode.OK)
         {
-            //Save token somewhere
+            var token = await result.Content.ReadFromJsonAsync<LoginResponse>();
+
+            await sessionStorage.SetItemAsStringAsync("USER_TOKEN", token.AccessToken);
+            await sessionStorage.SetItemAsStringAsync("REFRESH_TOKEN", token.RefreshToken);
+
             navigation.NavigateTo("/home");
         }
 

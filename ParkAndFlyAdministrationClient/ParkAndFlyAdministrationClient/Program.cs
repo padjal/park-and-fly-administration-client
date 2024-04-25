@@ -1,8 +1,10 @@
+using Blazored.SessionStorage;
 using dymaptic.GeoBlazor.Core;
 using ParkAndFlyAdministrationClient.Client.Pages;
 using ParkAndFlyAdministrationClient.Components;
 using ParkAndFlyAdministrationClient.Data.Services;
 using Radzen;
+using System.Text.Json;
 
 namespace ParkAndFlyAdministrationClient
 {
@@ -26,6 +28,17 @@ namespace ParkAndFlyAdministrationClient
                 {
                     BaseAddress = new Uri("http://18.130.140.171:8080")
                 });
+
+            builder.Services.AddBlazoredSessionStorage(config => {
+                config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+                config.JsonSerializerOptions.IgnoreNullValues = true;
+                config.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+                config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                config.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                config.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
+                config.JsonSerializerOptions.WriteIndented = false;
+            }
+            );
 
             builder.Services.AddSingleton<IParkingService, ParkingService>();
             builder.Services.AddSingleton<IReservationService, ReservationService>();

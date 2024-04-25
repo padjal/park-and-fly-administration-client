@@ -23,7 +23,13 @@ namespace ParkAndFlyAdministrationClient.Data.Services
         {
             await Task.Delay(300);
 
-            return new List<Parking>() { new Parking() {Name = "New parking 1" }, new Parking() { Name = "New parking 2" } };
+            return new List<Parking>() { 
+                new Parking() {Name = "New parking 1" }, 
+                new Parking() {Name = "New parking 2" }, 
+                new Parking() {Name = "New parking 3" }, 
+                new Parking() {Name = "New parking 4" },
+                new Parking() {Name = "New parking 5" }
+            };
         }
     }
 }
