@@ -7,6 +7,7 @@
 @inject IParkingService ParkingService
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 @inject DialogService DialogService
+@inject NavigationManager navigation
 
 @* <AuthorizeView>
     <Authorized>
@@ -44,7 +45,7 @@
     }
     else
     {
-        <RadzenDataGrid Data="@_parkings" TItem="Parking" AllowFiltering="true" AllowPaging="true">
+        <RadzenDataGrid Data="@_parkings" TItem="Parking" AllowFiltering="true" AllowPaging="true" CellClick=@SelectRow>
             <Columns>
                 <RadzenDataGridColumn TItem="Parking" Property="Id" Title="Id" />
                 <RadzenDataGridColumn TItem="Parking" Property="Name" Title="Name" />
@@ -105,6 +106,11 @@
         await DialogService.OpenAsync<ParkingDialog>("");
 
         await GetParkings();
+    }
+
+    async Task SelectRow(DataGridCellMouseEventArgs<Parking> args)
+    {
+        navigation.NavigateTo($"/parking-dashboard/{args.Data.Id}");
     }
 }
  

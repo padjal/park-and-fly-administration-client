@@ -5,6 +5,11 @@ namespace ParkAndFlyAdministrationClient.Data.Services
 {
     public class CarService(HttpClient httpClient) : ICarServcie
     {
+        public async Task<List<Car>> GetAllCars()
+        {
+            return await httpClient.GetFromJsonAsync<List<Car>>($"api/v1/car") ?? new List<Car>();
+        }
+
         public async Task<List<Car>> GetCarsByUserAsync(string userId)
         {
             //await Task.Delay(1000);
