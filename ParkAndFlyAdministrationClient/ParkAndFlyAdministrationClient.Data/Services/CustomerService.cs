@@ -12,26 +12,14 @@ namespace ParkAndFlyAdministrationClient.Data.Services
     {
         public async Task<List<Customer>> GetAllAsync()
         {
-            //return await httpClient.GetFromJsonAsync<List<Customer>>("customers") ?? new List<Customer>();
-
-            await Task.Delay(1000);
-
-            return new List<Customer>()
-            {
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Johny", Surname="Depp", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="James", Surname="Hype", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="George", Surname="Doyd", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Valentin", Surname="Kiprov", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Mario", Surname="Bush", PhoneNumber="0892342345"},
-            };
+            return await httpClient.GetFromJsonAsync<List<Customer>>("api/v1/user") ?? new List<Customer>();
         }
 
         public async Task<Customer> GetCustomerAsync(string customerId)
         {
             await Task.Delay(1000);
 
-            return new Customer() { Id = "2342342", Birthday = DateTime.Now, Email = "padjal@example.com", Name = "Pavel", Surname = "Dzhalev", PhoneNumber = "0892342345" };
+            return new Customer() { Id = "2342342", Birthday = DateTime.Now, Email = "padjal@example.com", FirstName = "Pavel", LastName = "Dzhalev", PhoneNumber = "0892342345" };
         }
 
         public async Task<List<Customer>> GetCustomersFromParkingAsync(string parkingId)
@@ -40,12 +28,12 @@ namespace ParkAndFlyAdministrationClient.Data.Services
 
             return new List<Customer>()
             {
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
-                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", Name="Pavel", Surname="Dzhalev", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", FirstName="Pavel", LastName="Dzhalev", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", FirstName="Pavel", LastName="Dzhalev", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", FirstName="Pavel", LastName="Dzhalev", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", FirstName="Pavel", LastName="Dzhalev", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", FirstName="Pavel", LastName="Dzhalev", PhoneNumber="0892342345"},
+                new Customer(){Id="2342342", Birthday=DateTime.Now, Email="padjal@example.com", FirstName="Pavel", LastName="Dzhalev", PhoneNumber="0892342345"},
             };
         }
     }

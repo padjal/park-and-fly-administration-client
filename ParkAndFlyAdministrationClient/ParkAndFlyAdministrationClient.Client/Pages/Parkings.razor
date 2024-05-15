@@ -3,9 +3,19 @@
 @using ParkAndFlyAdministrationClient.Data.Models
 @using ParkAndFlyAdministrationClient.Data.Services
 @using Microsoft.AspNetCore.Components.Authorization
+@using Point = dymaptic.GeoBlazor.Core.Components.Geometries.Point
 @inject IParkingService ParkingService
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 @inject DialogService DialogService
+
+@* <AuthorizeView>
+    <Authorized>
+        You're in.
+    </Authorized>
+    <NotAuthorized>
+        Please log in.
+    </NotAuthorized>
+</AuthorizeView> *@
 
 <RadzenRow>
     <RadzenColumn Size="6">
@@ -20,8 +30,10 @@
     </RadzenColumn>
 </RadzenRow>
 
-<MapView Longitude="_longitude" Latitude="_latitude" Zoom="12" Style="height: 400px; width: 100%;">
+<MapView @ref=_mapView Longitude="_longitude" Latitude="_latitude" Zoom="12" Style="height: 400px; width: 100%;">
     <Map ArcGisDefaultBasemap="arcgis-topographic">
+        <GraphicsLayer @ref=_pointsLayer>
+        </GraphicsLayer>
     </Map>
 </MapView>
 
@@ -34,13 +46,22 @@
     {
         <RadzenDataGrid Data="@_parkings" TItem="Parking" AllowFiltering="true" AllowPaging="true">
             <Columns>
+                <RadzenDataGridColumn TItem="Parking" Property="Id" Title="Id" />
                 <RadzenDataGridColumn TItem="Parking" Property="Name" Title="Name" />
+                <RadzenDataGridColumn TItem="Parking" Property="Latitude" Title="Latitude" />
+                <RadzenDataGridColumn TItem="Parking" Property="Longitude" Title="Longitude" />
                 <RadzenDataGridColumn TItem="Parking" Property="Address" Title="Address" />
+                <RadzenDataGridColumn TItem="Parking" Property="City" Title="City" />
+                <RadzenDataGridColumn TItem="Parking" Property="Country" Title="Country" />
+                <RadzenDataGridColumn TItem="Parking" Property="Phone" Title="Phone" />
                 <RadzenDataGridColumn TItem="Parking" Property="MaxCars" Title="MaxCars" />
             </Columns>
         </RadzenDataGrid>
     }
 </div>
+
+<RadzenDialog />
+<RadzenNotification />
 
 
 @code {
@@ -48,10 +69,26 @@
     private readonly double _longitude = 23.4058244;
     private bool _isParkingDataLoading;
     private List<Parking>? _parkings;
+    private MapView _mapView;
+    private GraphicsLayer _pointsLayer;
 
     protected override async Task OnInitializedAsync()
     {
         await GetParkings();
+        await PlaceMarkers();
+    }
+
+    private async Task PlaceMarkers()
+    {
+        var graphics = new List<Graphic>();
+
+        foreach(var parking in _parkings)
+        {
+            graphics.Add(new Graphic(new Point(parking.Longitude, parking.Latitude), new SimpleMarkerSymbol(new Outline(new MapColor("red")), new MapColor("red"))));
+        }
+
+        await _pointsLayer.Add(graphics);
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task GetParkings()
@@ -66,6 +103,8 @@
     private async Task OnAddParking()
     {
         await DialogService.OpenAsync<ParkingDialog>("");
+
+        await GetParkings();
     }
 }
  

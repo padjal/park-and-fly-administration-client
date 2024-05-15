@@ -1,7 +1,9 @@
 ﻿@page "/add-parking"
 @using ParkAndFlyAdministrationClient.Data.Models
+@using ParkAndFlyAdministrationClient.Data.Services
 @inject Radzen.DialogService dialogService
 @inject ILoggerFactory LoggerFactory
+@inject IParkingService ParkingService
 
 <RadzenStack Gap="1rem">
     <h3>Add Parking</h3>
@@ -73,7 +75,7 @@
                     <RadzenLabel Text="Phone" Component="Phone" />
                 </div>
                 <div class="col">
-                    <RadzenTextBox style="display: block" Name="Country" @bind-Value=@parking.Phone class="w-100" />
+                    <RadzenTextBox style="display: block" Name="Phone" @bind-Value=@parking.Phone class="w-100" />
                     <RadzenRequiredValidator Component="Phone" Text="Parking phone is required" Popup=@popup Style="position: absolute" />
                 </div>
             </div>
@@ -96,8 +98,15 @@
     bool popup;
     Parking parking = new Parking();
 
-    private void OnSubmit(Parking parking)
+    private async Task OnSubmit()
     {
-        throw new NotImplementedException();
+        //TODO: Add custom validations
+
+        var result = await ParkingService.AddParkingAsync(parking);
+
+        if (result)
+        {
+            dialogService.Close();
+        }
     }
 }
