@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -17,9 +18,9 @@ namespace ParkAndFlyAdministrationClient.Data.Services
         {
             //var response = await _httpClient.GetAsync("api/v1/parking");
 
-            await Task.Delay(3000);
+            var result = await httpClient.PostAsJsonAsync<Parking>("api/v1/parking", parking);
 
-            throw new NotImplementedException();
+            return result.IsSuccessStatusCode;
         }
 
         public async Task<List<Parking>> GetParkingsAsync()

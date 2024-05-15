@@ -11,10 +11,10 @@
     <Columns>
         <RadzenDataGridColumn TItem="Customer" Property="Id" Title="Id" />
         <RadzenDataGridColumn TItem="Customer" Property="Email" Title="Email" />
-        <RadzenDataGridColumn TItem="Customer" Property="Name" Title="Name" />
-        <RadzenDataGridColumn TItem="Customer" Property="Surname" Title="Surname" />
+        <RadzenDataGridColumn TItem="Customer" Property="FirstName" Title="Name" />
+        <RadzenDataGridColumn TItem="Customer" Property="LastName" Title="Surname" />
         <RadzenDataGridColumn TItem="Customer" Property="Birthday" Title="Birthday" />        
-        <RadzenDataGridColumn TItem="Customer" Property="PhoneNumber" Title="Phone Numnber" />
+        <RadzenDataGridColumn TItem="Customer" Property="PhoneNumber" Title="Phone Number" />
         <RadzenDataGridColumn TItem="Customer" Title="Edit" Context="customer">
             <Template Context="customer">
                 <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(customer))" />
@@ -22,6 +22,9 @@
         </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
+
+<RadzenDialog />
+<RadzenNotification />
 
 @code {
     RadzenDataGrid<Customer> customersGrid;

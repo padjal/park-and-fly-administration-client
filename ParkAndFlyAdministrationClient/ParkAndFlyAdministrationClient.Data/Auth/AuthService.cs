@@ -8,6 +8,7 @@ using ParkAndFlyAdministrationClient.Client.Data.Requests;
 using ParkAndFlyAdministrationClient.Client.Data.Response;
 using ParkAndFlyAdministrationClient.Client.Auth;
 using System.Net.Http;
+using ParkAndFlyAdministrationClient.Data.Data.Requests;
 
 namespace ParkAndFlyAdministrationClient.Data.Auth
 {
@@ -26,12 +27,12 @@ namespace ParkAndFlyAdministrationClient.Data.Auth
             _localStorage = localStorage;
         }
 
-        /*public async Task<RegisterResult> Register(RegisterModel registerModel)
+        public async Task<bool> Register(RegisterRequest registerModel)
         {
-            var result = await _httpClient.PostJsonAsync<RegisterResult>("api/accounts", registerModel);
+            var result = await _httpClient.PostAsJsonAsync<RegisterRequest>("api/accounts", registerModel);
 
-            return result;
-        }*/
+            return result.IsSuccessStatusCode;
+        }
 
         public async Task<LoginResponse> Login(LoginRequest loginModel)
         {
@@ -43,7 +44,7 @@ namespace ParkAndFlyAdministrationClient.Data.Auth
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return loginResult;
+                    return null;
                 }
 
                 await _localStorage.SetItemAsync("authToken", loginResult.AccessToken);
@@ -56,10 +57,10 @@ namespace ParkAndFlyAdministrationClient.Data.Auth
             }
             catch (Exception ex)
             {
-
+                return null;
             }
-            
-            return new LoginResponse();
+
+            return null;
         }
 
         public async Task Logout()

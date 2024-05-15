@@ -9,7 +9,7 @@ namespace ParkAndFlyAdministrationClient.Data.Models
     public class Reservation
     {   
         public String Id { get; set; }
-        public string CarNumber { get; set; }
+        public string CarId { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
     }
