@@ -1,7 +1,13 @@
 ﻿@page "/"
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@using ParkAndFlyAdministrationClient.Data.Auth
+@using ParkAndFlyAdministrationClient.Client.Data.Requests
+@using ParkAndFlyAdministrationClient.Client.Data.Response
 @layout EmptyLayout
-@rendermode InteractiveServer
-@inject NavigationManager Navigation
+@inject NavigationManager navigation
+@inject HttpClient httpClient
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject IAuthService AuthService
 
 <RadzenRow Gap="0" Class="rz-my-12 rz-mx-auto rz-border-radius-6 rz-shadow-10" Style="width: 100%; max-width: 800px; overflow: hidden;">
     <RadzenColumn Size="12" SizeMD="6">
@@ -16,9 +22,21 @@
             <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H2" Class="rz-mb-6">
                 Login
             </RadzenText>
-            <RadzenTemplateForm Data=@("SimpleLogin")>
-                <RadzenLogin AllowRegister="false" AllowResetPassword="true" Register=@(args => OnRegister("")) Login=@OnLogin />
-            </RadzenTemplateForm>
+
+            @if (isBusy)
+            {
+                <RadzenProgressBarCircular Value=100 ShowValue=false Mode="ProgressBarMode.Indeterminate" />
+            }
+            else
+            {
+                <RadzenTemplateForm Data=@("SimpleLogin")>
+                    <RadzenLogin AllowRegister="false" AllowResetPassword="true" PasswordAutoCompleteType=AutoCompleteType.CurrentPassword AllowRememberMe=true Register=@(args => OnRegister("")) Login=@OnLogin />
+                </RadzenTemplateForm>
+            }
+            
+            <RadzenAlert Visible=@isAlertVisible Title="Could not log in" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Shade="Shade.Lighter">
+                Please double check your username and password.
+            </RadzenAlert>
         </RadzenCard>
     </RadzenColumn>
 </RadzenRow>
@@ -28,12 +46,24 @@
     string userName = "admin";
     string password = "admin";
     bool rememberMe = true;
+    bool isAlertVisible;
+    bool isBusy;
 
-    void OnLogin(LoginArgs args)
+    async Task OnLogin(LoginArgs args)
     {
-        Console.WriteLine($"Username: {args.Username}, password: {args.Password}, remember me: {args.RememberMe}");
 
-        Navigation.NavigateTo("/home");
+        isBusy = true;
+
+        var result = await AuthService.Login(new LoginRequest() { Email = args.Username, Password = args.Password });
+
+        isBusy = false;
+
+        if(result != null)
+        {
+            navigation.NavigateTo("/home");
+        }
+
+        isAlertVisible = true;
     }
 
     void OnRegister(string name)

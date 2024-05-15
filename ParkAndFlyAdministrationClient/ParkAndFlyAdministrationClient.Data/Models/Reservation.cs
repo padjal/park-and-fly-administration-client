@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ParkAndFlyAdministrationClient.Data.Models
 {
-    public record Reservation
+    public class Reservation
     {   
         public String Id { get; set; }
         public string CarNumber { get; set; }

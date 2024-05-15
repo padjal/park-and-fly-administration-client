@@ -1,6 +1,6 @@
 ﻿namespace ParkAndFlyAdministrationClient.Data.Models
 {
-    public record Car
+    public class Car
     {
         public string Number { get; set; }
         public string Color { get; set; }

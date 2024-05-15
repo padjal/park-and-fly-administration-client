@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ParkAndFlyAdministrationClient.Data.Services
 {
-    public class ReservationService : IReservationService
+    public class ReservationService(HttpClient httpClient) : IReservationService
     {
         public Task<bool> AddReservation(ReservationRequest reservation)
         {
@@ -16,14 +18,14 @@ namespace ParkAndFlyAdministrationClient.Data.Services
 
         public async Task<List<Reservation>> GetAllReservationsAsync()
         {
-            await Task.Delay(1000);
+            var response = await httpClient.GetAsync("api/v1/reservation");
 
-            return new List<Reservation>() { 
-            new Reservation{Id = "2w34234", From=DateTime.Now, To=DateTime.Now, CarNumber="CA7177HE" },
-            new Reservation{Id = "2w34234", From=DateTime.Now, To=DateTime.Now, CarNumber="CA7177HE" },
-            new Reservation{Id = "2w34234", From=DateTime.Now, To=DateTime.Now, CarNumber="CA7177HE" },
-            new Reservation{Id = "2w34234", From=DateTime.Now, To=DateTime.Now, CarNumber="CA7177HE" },
-            new Reservation{Id = "2w34234", From=DateTime.Now, To=DateTime.Now, CarNumber="CA7177HE" }};
+            if(response.IsSuccessStatusCode)
+            {
+                return JsonSerializer.Deserialize<List<Reservation>>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+
+            return [];
         }
 
         public Task<List<Reservation>> GetReservationsAsync(string parkingId)

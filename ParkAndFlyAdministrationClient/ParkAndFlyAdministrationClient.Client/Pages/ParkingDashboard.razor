@@ -3,6 +3,7 @@
 @using ParkAndFlyAdministrationClient.Data.Services
 @using System.Diagnostics
 @inject IReservationService ReservationService
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <RadzenRow Gap="5px">
     <h3>ParkingDashboard</h3>

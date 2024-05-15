@@ -2,15 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ParkAndFlyAdministrationClient.Data.Services
 {
-    public class CustomerService : ICustomerService
+    public class CustomerService(HttpClient httpClient) : ICustomerService
     {
         public async Task<List<Customer>> GetAllAsync()
         {
+            //return await httpClient.GetFromJsonAsync<List<Customer>>("customers") ?? new List<Customer>();
+
             await Task.Delay(1000);
 
             return new List<Customer>()
