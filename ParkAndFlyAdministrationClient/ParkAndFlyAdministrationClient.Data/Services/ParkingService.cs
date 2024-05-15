@@ -1,9 +1,12 @@
-﻿using ParkAndFlyAdministrationClient.Data.Models;
+﻿using ParkAndFlyAdministrationClient.Client.Data.Response;
+using ParkAndFlyAdministrationClient.Data.Auth;
+using ParkAndFlyAdministrationClient.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ParkAndFlyAdministrationClient.Data.Services
@@ -21,15 +24,16 @@ namespace ParkAndFlyAdministrationClient.Data.Services
 
         public async Task<List<Parking>> GetParkingsAsync()
         {
-            await Task.Delay(300);
+            var response = await httpClient.GetAsync("api/v1/parking");
 
-            return new List<Parking>() { 
-                new Parking() {Name = "New parking 1" }, 
-                new Parking() {Name = "New parking 2" }, 
-                new Parking() {Name = "New parking 3" }, 
-                new Parking() {Name = "New parking 4" },
-                new Parking() {Name = "New parking 5" }
-            };
+            var parkings = JsonSerializer.Deserialize<List<Parking>>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            if (response.IsSuccessStatusCode)
+            {
+                return parkings;
+            }
+
+            return [] ;
         }
     }
 }

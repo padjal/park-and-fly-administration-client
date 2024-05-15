@@ -1,7 +1,11 @@
 using Blazored.SessionStorage;
 using dymaptic.GeoBlazor.Core;
+using Microsoft.AspNetCore.Components.Authorization;
+using ParkAndFlyAdministrationClient.Client.Auth;
 using ParkAndFlyAdministrationClient.Client.Pages;
 using ParkAndFlyAdministrationClient.Components;
+using ParkAndFlyAdministrationClient.Data.Auth;
+using ParkAndFlyAdministrationClient.Data.Auth;
 using ParkAndFlyAdministrationClient.Data.Services;
 using Radzen;
 using System.Text.Json;
@@ -44,6 +48,8 @@ namespace ParkAndFlyAdministrationClient
             builder.Services.AddSingleton<IReservationService, ReservationService>();
             builder.Services.AddSingleton<ICustomerService, CustomerService>();
             builder.Services.AddSingleton<ICarServcie, CarService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+
 
             var app = builder.Build();
 
