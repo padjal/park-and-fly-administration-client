@@ -28,6 +28,7 @@ namespace ParkAndFlyAdministrationClient.Client.Auth
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
 
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
+            //return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
         public void MarkUserAsAuthenticated(string email)
@@ -48,7 +49,7 @@ namespace ParkAndFlyAdministrationClient.Client.Auth
         {
             var claims = new List<Claim>();
             var payload = jwt.Split('.')[1];
-            var jsonBytes = ParseBase64WithoutPadding(payload);
+            var jsonBytes = ParseBase64WithoutPadding(jwt);
             var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
 
             keyValuePairs.TryGetValue(ClaimTypes.Role, out object roles);

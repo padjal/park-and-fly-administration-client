@@ -42,6 +42,7 @@ namespace ParkAndFlyAdministrationClient.Client
             builder.Services.AddSingleton<ICustomerService, CustomerService>();
 
             builder.Services.AddScoped<DialogService>();
+            builder.Services.AddScoped<NotificationService>();
             builder.Services.AddAuthorizationCore();
             builder.Services.AddCascadingAuthenticationState();
             builder.Services.AddTransient<IAuthService, AuthService>();

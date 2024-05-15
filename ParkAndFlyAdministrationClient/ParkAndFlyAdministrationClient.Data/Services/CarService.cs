@@ -9,7 +9,7 @@ namespace ParkAndFlyAdministrationClient.Data.Services
         {
             //await Task.Delay(1000);
 
-            return await httpClient.GetFromJsonAsync<List<Car>>("api/v1/car") ?? new List<Car>();
+            return await httpClient.GetFromJsonAsync<List<Car>>($"api/v1/car?userId={userId}") ?? new List<Car>();
 
             //return new List<Car> { 
             //    new Car() {Number = "CA7622HE", Brand="Toyota", Model ="Rav4", Color="Gray" },
