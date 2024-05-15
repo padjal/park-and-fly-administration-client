@@ -12,5 +12,8 @@ namespace ParkAndFlyAdministrationClient.Data.Models
         public string CarId { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
+        public int ParkingId { get; set; }
+        public bool IsPaid { get; set; }
+        public double Price { get; set; }
     }
 }
