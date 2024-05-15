@@ -23,6 +23,20 @@ namespace ParkAndFlyAdministrationClient.Data.Services
             return result.IsSuccessStatusCode;
         }
 
+        public async Task<Parking> GetParkingById(int parkingId)
+        {
+            var response = await httpClient.GetAsync($"api/v1/parking/{parkingId}");
+
+            var parking = JsonSerializer.Deserialize<Parking>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            if (response.IsSuccessStatusCode)
+            {
+                return parking;
+            }
+
+            return null;
+        }
+
         public async Task<List<Parking>> GetParkingsAsync()
         {
             var response = await httpClient.GetAsync("api/v1/parking");

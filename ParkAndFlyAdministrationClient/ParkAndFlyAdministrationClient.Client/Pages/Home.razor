@@ -1,0 +1,73 @@
+﻿@page "/Home"
+@using ParkAndFlyAdministrationClient.Data.Models
+@using ParkAndFlyAdministrationClient.Data.Services
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@inject IParkingService ParkingService
+@inject IReservationService ReservationService
+@inject ICustomerService CustomersService
+@inject ICarServcie CarService
+
+<PageTitle>Home</PageTitle>
+
+<RadzenStack Orientation="Orientation.Horizontal">
+    <RadzenCard Style="position: relative;">
+        <RadzenText TextStyle="TextStyle.H6">Parkings</RadzenText>
+        <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@_parkings.Count()</RadzenText>
+        <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
+            <RadzenValueAxis Visible="false" />
+            <RadzenCategoryAxis Visible="false" />
+            <RadzenColumnOptions Margin="10" />
+            <RadzenLegend Visible="false" />
+        </RadzenChart>
+    </RadzenCard>
+
+    <RadzenCard Style="position: relative;">
+        <RadzenText TextStyle="TextStyle.H6">Reservations</RadzenText>
+        <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@_reservations.Count()</RadzenText>
+        <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
+            <RadzenValueAxis Visible="false" />
+            <RadzenCategoryAxis Visible="false" />
+            <RadzenColumnOptions Margin="10" />
+            <RadzenLegend Visible="false" />
+        </RadzenChart>
+    </RadzenCard>
+
+    <RadzenCard Style="position: relative;">
+        <RadzenText TextStyle="TextStyle.H6">Customers</RadzenText>
+        <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@_customers.Count()</RadzenText>
+        <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
+            <RadzenValueAxis Visible="false" />
+            <RadzenCategoryAxis Visible="false" />
+            <RadzenColumnOptions Margin="10" />
+            <RadzenLegend Visible="false" />
+        </RadzenChart>
+    </RadzenCard>
+
+    <RadzenCard Style="position: relative;">
+        <RadzenText TextStyle="TextStyle.H6">Cars</RadzenText>
+        <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@_cars.Count()</RadzenText>
+        <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
+            <RadzenValueAxis Visible="false" />
+            <RadzenCategoryAxis Visible="false" />
+            <RadzenColumnOptions Margin="10" />
+            <RadzenLegend Visible="false" />
+        </RadzenChart>
+    </RadzenCard>
+</RadzenStack>
+    
+
+
+@code{
+    private List<Parking> _parkings = new List<Parking>();
+    private List<Reservation> _reservations = new List<Reservation>();
+    private List<Customer> _customers = new List<Customer>();
+    private List<Car> _cars = new List<Car>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _parkings = await ParkingService.GetParkingsAsync();
+        _reservations = await ReservationService.GetAllReservationsAsync();
+        _customers = await CustomersService.GetAllAsync();
+        _cars = await CarService.GetAllCars();
+    }
+}

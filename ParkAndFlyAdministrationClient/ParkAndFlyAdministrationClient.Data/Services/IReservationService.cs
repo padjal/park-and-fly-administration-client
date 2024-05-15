@@ -11,6 +11,11 @@ namespace ParkAndFlyAdministrationClient.Data.Services
     {
         Task<List<Reservation>> GetReservationsAsync(string parkingId);
 
+        Task<List<Reservation>> GetCurrentReservationsAsync(string parkingId);
+
+        Task<List<Reservation>> GetUpcommingReservationsAsync(string parkingId);
+        Task<List<Reservation>> GetReservationsForTheMonthAsync(string parkingId);
+
         Task<List<Reservation>> GetAllReservationsAsync();
 
         Task<bool> RemoveReservation (string ReservationId);

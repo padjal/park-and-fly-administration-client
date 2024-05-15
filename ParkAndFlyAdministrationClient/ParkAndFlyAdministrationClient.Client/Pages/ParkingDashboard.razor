@@ -3,20 +3,22 @@
 @using ParkAndFlyAdministrationClient.Data.Services
 @using System.Diagnostics
 @inject IReservationService ReservationService
+@inject IParkingService ParkingService
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
-<RadzenRow Gap="5px">
-    <h3>ParkingDashboard</h3>
+<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="15px">
+    <h3>@_parking.Name Dashboard</h3>
+    <p>Address: @_parking.Address</p>
 
     <RadzenButton Click=Refresh Icon="refresh" ButtonStyle="ButtonStyle.Light" />
-</RadzenRow>
+</RadzenStack>
 
 <RadzenRow>
     <RadzenColumn>
         <RadzenCard>
             <RadzenArcGauge Style="width: 100%; height: 250px;">
-                <RadzenArcGaugeScale Step="20" Min="0" Max="260" MinorStep="2" Radius="1.5" TickPosition=@tickPosition Y="0.9" Margin="0">
-                    <RadzenArcGaugeScaleValue Value=@_reservationsCount ShowValue=@showValue>
+                <RadzenArcGaugeScale Step="10" Min="0" Max=@_parking.MaxCars MinorStep="2" Radius="1.5" TickPosition=@tickPosition Y="0.9" Margin="0">
+                    <RadzenArcGaugeScaleValue Value=@_currentRreservationsCount ShowValue=@showValue>
                         <Template Context="pointer">
                             <h4>
                                 @pointer.Value
@@ -27,6 +29,44 @@
                 </RadzenArcGaugeScale>
             </RadzenArcGauge>
         </RadzenCard>
+    </RadzenColumn>
+
+    <RadzenColumn Style="height: 100%">
+        <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
+            <RadzenCard Style="position: relative;">
+                <RadzenText TextStyle="TextStyle.H6">Revenue this month</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@_revenueThisMonth</RadzenText>
+                <RadzenChart Style="width: 100%; height: 60px; margin-bottom: -30px;">
+                    <RadzenValueAxis Visible="false" />
+                    <RadzenCategoryAxis Visible="false" />
+                    <RadzenColumnOptions Margin="10" />
+                    <RadzenLegend Visible="false" />
+                </RadzenChart>
+            </RadzenCard>
+
+            <RadzenCard Style="position: relative;">
+                <RadzenText TextStyle="TextStyle.H6">Reservations this month</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-warning" Style="position: absolute; right: 1.5rem; top: 1rem;">@_reservationsThisMonth</RadzenText>
+                <RadzenChart Style="width: 100%; height: 60px; margin-bottom: -30px;">
+                    <RadzenValueAxis Visible="false" />
+                    <RadzenCategoryAxis Visible="false" />
+                    <RadzenColumnOptions Margin="10" />
+                    <RadzenLegend Visible="false" />
+                </RadzenChart>
+            </RadzenCard>
+
+            <RadzenCard Style="position: relative;">
+                <RadzenText TextStyle="TextStyle.H6">Total reservations</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-info" Style="position: absolute; right: 1.5rem; top: 1rem;">@_reservationsInTotal</RadzenText>
+                <RadzenChart Style="width: 100%; height: 60px; margin-bottom: -30px;">
+                    <RadzenValueAxis Visible="false" />
+                    <RadzenCategoryAxis Visible="false" />
+                    <RadzenColumnOptions Margin="10" />
+                    <RadzenLegend Visible="false" />
+                </RadzenChart>
+            </RadzenCard>
+        </RadzenStack>
+        
     </RadzenColumn>
     
     <RadzenColumn>
@@ -73,16 +113,34 @@
     </div> *@
 </RadzenRow>
 
+<RadzenRow>
+    <RadzenColumn>
+        <h2>Current reservations</h2>
+        <RadzenDataGrid style="height: 535px" @ref="grid" IsLoading=@isLoading Data="@CurrentReservations" LoadData="@LoadData" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="4" PagerHorizontalAlign="HorizontalAlign.Center" TItem="Reservation" ColumnWidth="200px">
+            <Columns>
+                <RadzenDataGridColumn TItem="Reservation" Property="CarId" Title="Car Id" Width="160px" />
+                <RadzenDataGridColumn TItem="Reservation" Property="From" Title="From" Width="160px" />
+                <RadzenDataGridColumn TItem="Reservation" Property="To" Title="To" Width="160px" />
+                <RadzenDataGridColumn TItem="Reservation" Property="Price" Title="Price" Width="160px" />
+                <RadzenDataGridColumn TItem="Reservation" Property="IsPaid" Title="Paid" Width="160px" />
+            </Columns>
+        </RadzenDataGrid>
+        <p>@log</p>
+    </RadzenColumn>
 
-<RadzenDataGrid style="height: 335px" @ref="grid" IsLoading=@isLoading Data="@Reservations" LoadData="@LoadData" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="4" PagerHorizontalAlign="HorizontalAlign.Center" TItem="Reservation" ColumnWidth="200px">
-    <Columns>
-        <RadzenDataGridColumn TItem="Reservation" Property="Id" Title="Id" Width="120px" />
-        <RadzenDataGridColumn TItem="Reservation" Property="CarId" Title="Car Id" Width="160px" />
-        <RadzenDataGridColumn TItem="Reservation" Property="From" Title="From" Width="160px" />
-        <RadzenDataGridColumn TItem="Reservation" Property="To" Title="To" Width="160px" />
-    </Columns>
-</RadzenDataGrid>
-<p>@log</p>
+    <RadzenColumn>
+        <h2>Upcoming reservations</h2>
+        <RadzenDataGrid style="height: 535px" @ref="grid" IsLoading=@isLoading Data="@UpcommingReservations" LoadData="@LoadData" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="4" PagerHorizontalAlign="HorizontalAlign.Center" TItem="Reservation" ColumnWidth="200px">
+            <Columns>
+                <RadzenDataGridColumn TItem="Reservation" Property="CarId" Title="Car Id" Width="160px" />
+                <RadzenDataGridColumn TItem="Reservation" Property="From" Title="From" Width="160px" />
+                <RadzenDataGridColumn TItem="Reservation" Property="To" Title="To" Width="160px" />
+                <RadzenDataGridColumn TItem="Reservation" Property="Price" Title="Price" Width="160px" />
+                <RadzenDataGridColumn TItem="Reservation" Property="IsPaid" Title="Paid" Width="160px" />
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenColumn>
+</RadzenRow>
 
 <RadzenDialog />
 <RadzenNotification />
@@ -91,11 +149,17 @@
     [Parameter]
     public string? ParkingId { get; set; }
 
-    private int _reservationsCount => Reservations.Count();
+    private Parking _parking = new Parking();
+    private int _reservationsThisMonth;
+    private int _revenueThisMonth;
+    private int _reservationsInTotal;
+    private int _currentRreservationsCount => CurrentReservations.Count();
+    private int _parkingMaxCars => 100;
 
     private bool isLoading;
 
-    public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+    public List<Reservation> CurrentReservations { get; set; } = new List<Reservation>();
+    public List<Reservation> UpcommingReservations { get; set; } = new List<Reservation>();
     RadzenDataGrid<Reservation> grid;
     private string log;
 
@@ -146,7 +210,13 @@
 
         isLoading = true;
 
-        Reservations = await ReservationService.GetAllReservationsAsync();
+        int.TryParse(ParkingId, out int intParkingId);
+
+        _parking = await ParkingService.GetParkingById(intParkingId);
+
+        CurrentReservations = await ReservationService.GetCurrentReservationsAsync(ParkingId);
+        UpcommingReservations = await ReservationService.GetUpcommingReservationsAsync(ParkingId);
+        await GetReservationsStats();
 
         //await grid.Reload();
 
@@ -159,14 +229,16 @@
 
     async Task Refresh()
     {
-        isLoading = true;
+        await LoadData(null); 
+    }
 
-        //await Task.Yield();
+    private async Task GetReservationsStats()
+    {
+        var reservationsThisMonth = await ReservationService.GetReservationsForTheMonthAsync(ParkingId);
+        var allReservations = await ReservationService.GetReservationsAsync(ParkingId);
 
-        Reservations = await ReservationService.GetAllReservationsAsync();
-
-        //await grid.Reload();
-
-        isLoading = false;      
+        _revenueThisMonth = (int)reservationsThisMonth.Sum(r => r.Price);
+        _reservationsThisMonth = reservationsThisMonth.Count();
+        _reservationsInTotal = allReservations.Count();
     }
 }

@@ -10,6 +10,7 @@ namespace ParkAndFlyAdministrationClient.Data.Services
     public interface IParkingService
     {
         Task<List<Parking>> GetParkingsAsync();
+        Task<Parking> GetParkingById(int parkingId);
 
         Task<bool> AddParkingAsync(Parking parking);
     }
